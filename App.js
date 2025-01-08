@@ -243,6 +243,8 @@ function App() {
                   
                   </Stack.Navigator>
            </MyProvider>
+
+           
     </NavigationContainer>
   );
 }

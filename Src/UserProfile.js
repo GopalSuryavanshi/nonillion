@@ -8,6 +8,7 @@ import PersonalInfo from './Business/PersonalInfo';
 import BusinessInfo from './Business/BusinessInfo';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useFocusEffect } from '@react-navigation/native';
+import { Header } from './Header';
 
 const UserProfile = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState('Business Details');
@@ -94,10 +95,22 @@ const UserProfile = ({ navigation }) => {
     }
   };
 
+  const handleGoBack = () => {
+    navigation.goBack(); // This function will navigate back to the previous screen
+  };
+
   return (
     <View style={{ flex: 1 }}>
+
+<Header  />
+
       <ScrollView contentContainerStyle={styles.container}>
         <Image source={require('./assets/Gymimg.png')} style={styles.headerImage} />
+        {/* <TouchableOpacity style={{borderWidth:1, alignSelf:'flex-start', position:'absolute',top:'2%'}}>
+          <Image source={require('./assets/Backarrow.png')} />
+        </TouchableOpacity> */}
+
+
 
         <View style={styles.profileContainer}>
           <TouchableOpacity style={styles.shadowBox} onPress={() => navigation.navigate('EditProfile')}>
@@ -109,6 +122,7 @@ const UserProfile = ({ navigation }) => {
             <Text style={styles.profileName}>{dataCategory.name}</Text>
             <Text style={styles.profileEmail}>{dataCategory.email_optional}</Text>
           </TouchableOpacity>
+
           <View style={styles.tabContainer}>
             {/* <TouchableOpacity style={{ borderEndWidth: 1 }} onPress={() => setActiveTab('Bank Details')}>
               <Text style={[styles.tab, activeTab === 'Bank Details' && styles.activeTab]}>Bank Details</Text>
@@ -117,7 +131,7 @@ const UserProfile = ({ navigation }) => {
               <Text style={[styles.tab, activeTab === 'Business Details' && styles.activeTab]}>Business Details</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setActiveTab('Business Details')}>
-              <Text style={{height:42,backgroundColor:"#000",width:1,borderWidth:0}}></Text>
+              <Text style={{ height: 42, backgroundColor: "#000", width: 1, borderWidth: 0 }}></Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={{ borderStartWidth: 0 }} onPress={() => setActiveTab('Business Gallery')}>
@@ -180,7 +194,7 @@ const styles = StyleSheet.create({
     , color: 'gray'
   },
   profileEmail: {
-    textTransform: "capitalize",
+    // textTransform: "capitalize",
     top: -35,
     fontSize: 16,
     color: 'gray',
@@ -191,17 +205,17 @@ const styles = StyleSheet.create({
     width: '100%',
     marginVertical: 20,
     top: -15,
-    borderWidth:0
+    borderWidth: 0
   },
   tab: {
     fontSize: 16,
     color: 'gray',
     width: 80,
-    textAlign: 'center',borderWidth:0
+    textAlign: 'center', borderWidth: 0
   },
   activeTab: {
     color: '#961702',
-   borderWidth:0
+    borderWidth: 0
   },
   galleryContainer: {
     flexDirection: 'row',
@@ -220,7 +234,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#961702',
     justifyContent: 'center',
     alignItems: 'center',
-    
+
   },
   addButtonText: {
     fontSize: 30,

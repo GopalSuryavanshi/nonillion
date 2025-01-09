@@ -4,9 +4,15 @@ import { Image, TouchableOpacity } from 'react-native';
 import { Text, View, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const DashboardGrid = () => {
+const DashboardGrid = (props) => {
 
+
+console.log('propsssss', props);
   const navigation = useNavigation()
+
+const cat_id = props;
+console.log("ganesgh", cat_id);
+
   return (
     <>
     <View style={{width:"100%"}}>
@@ -33,7 +39,7 @@ const DashboardGrid = () => {
 
         <View style={styles.gridContainer}>
           <View style={styles.gridItem}>
-            <TouchableOpacity onPress={()=>navigation.navigate('Packges')}>
+            <TouchableOpacity onPress={()=>navigation.navigate('Packges', {cat_id})}>
           <LinearGradient
         colors={['#FF0404', '#820101']}
         start={{ x: 0, y: 0 }}

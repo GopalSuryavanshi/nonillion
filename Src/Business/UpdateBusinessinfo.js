@@ -12,11 +12,14 @@ const UpdateBusinessinfo = () => {
   const { LoginState, updateState } = useMyContext();
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [businesslistdata, setBusinesslistdata] = useState([]);
-const[loading,setloading]=useState(true);
+  const [loading, setloading] = useState(true);
+
   useEffect(() => {
     businesstype();
     GetBusinessdata();
   }, []);
+
+
 
   const businesstype = () => {
     axios
@@ -56,6 +59,8 @@ const[loading,setloading]=useState(true);
   const [busiOpentime, setBusiOpentime] = useState(new Date(0, 0, 0, 17, 15)); // Set to 5:15 PM
   const [busiClosetime, setBusiClosetime] = useState(new Date(0, 0, 0, 17, 15)); // Set to 5:15 PM
   const [busidesc, setBusidesc] = useState("");
+  const [weekday, setWeekday] = useState("sunday");
+
   const [businesslogo, setbusinesslogo] = useState("");
   const [businessfrontdoc, setbusinessfrontdoc] = useState("");
   const [businessbackdoc, setbusinessbackdoc] = useState("");
@@ -83,13 +88,13 @@ const[loading,setloading]=useState(true);
       const geoapifykey = "abc57b70a5904b0187136c494e4ccf60";
       axios.get(
         "https://api.geoapify.com/v1/geocode/autocomplete?text=" +
-          pincodeX +
-          "&apiKey=" +
-          geoapifykey
+        pincodeX +
+        "&apiKey=" +
+        geoapifykey
       )
         .then((response) => {
           setLongitude(response.data && response.data.features[0].properties.lon.toString());
-          setLattitude( response.data && response.data.features[0].properties.lat.toString());
+          setLattitude(response.data && response.data.features[0].properties.lat.toString());
         })
         .catch((error) => {
           console.error(error);
@@ -128,10 +133,10 @@ const[loading,setloading]=useState(true);
           const match = time && time.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
           return match ? new Date(1970, 0, 1, (parseInt(match[1], 10) % 12) + (match[3].toUpperCase() === 'PM' ? 12 : 0), parseInt(match[2], 10)) : new Date(1970, 0, 1, defaultHours, defaultMinutes);
         };
-        
+
         setBusiOpentime(parseTime(response.data.data.open_time, 9, 0)); // Default to 9:00 AM
         setBusiClosetime(parseTime(response.data.data.close_time, 22, 0)); // Default to 10:00 PM
-        
+
 
         setBusidesc(response.data.data.description || "");
         setbusinesslogo(response.data.data.business_logo || "");
@@ -158,47 +163,55 @@ const[loading,setloading]=useState(true);
 
   const handleSubmitBusinessDetails = async () => {
     try {
+      console.log("entered try block", LoginState);
+
+
       const headers = {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${LoginState.Token}`,
       };
 
-      let businessformdata = new FormData();
-      businessformdata.append("business_name", businame);
-      businessformdata.append("category_id", selectedBusinessType);
-      businessformdata.append("latitude", lattitude);
-      businessformdata.append("longitude", longitude);
-      businessformdata.append("state", state);
-      businessformdata.append("city_api", businesscity);
-      businessformdata.append("pincode", pincode);
-      businessformdata.append("address", address);
-      businessformdata.append("map_url", mapurl);
-      businessformdata.append("gst_optional", gst);
-      businessformdata.append("pan_no", pan);
-      businessformdata.append("highlighted_area", business_area);
-      businessformdata.append("country", business_country);
-      businessformdata.append("description", busidesc);
-      console.log()
-      businessformdata.append("open_time",new Date(busiOpentime.toISOString()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }));
-      businessformdata.append("close_time",new Date(busiClosetime.toISOString()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }));
-      console.log("https://api.aroundme.co.in/businessapp/edit/" + LoginState.Busid + "/")
+      const businessformdata = {
+        business_name: businame,
+        category_id: selectedBusinessType,
+        latitude: lattitude,
+        longitude: longitude,
+        state: state,
+        city_api: businesscity,
+        pincode: pincode,
+        address: address,
+        map_url: mapurl,
+        gst_optional: gst,
+        pan_no: pan,
+        highlighted_area: business_area,
+        country: business_country,
+        weekday_off: weekday,
+        open_time: new Date(busiOpentime.toISOString()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+        close_time: new Date(busiClosetime.toISOString()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+        description: busidesc
+      };
+
+      console.log("businessd", businessformdata);
 
       const response = await axios.put(
-        // https://api.aroundme.co.in/businessapp/busineessedit/
         "https://api.aroundme.co.in/businessapp/busineessedit/",
         businessformdata,
         { headers }
       );
+      console.log("response", response);
+      // console.log("data", businessformdata);
 
-      console.log("response2:", response.data);
+      // console.log("response2:", response.data);
+      setModalVisible(true)
+
       GetBusinessdata();
 
-      setModalVisible(true)
-      
-     
+
+
     } catch (error) {
+      console.log(error);
       if (error.response) {
-        console.error("Error response data:", error.response.data);
+        console.error("Error response data:", error.response);
       } else {
         console.error("Error updating data:", error.message);
       }
@@ -219,13 +232,13 @@ const[loading,setloading]=useState(true);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  const[modalVisible, setModalVisible]=useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
       <Header Title={"Update Business Info"} />
-     {loading&& <FullScreenDataLoader color={"#961702"}></FullScreenDataLoader>}
+      {loading && <FullScreenDataLoader color={"#961702"}></FullScreenDataLoader>}
 
-     <AlertMessage screenName={"UserProfile"} Title={"Business information updated successfully"} setModalVisible={setModalVisible} modalVisible={modalVisible}></AlertMessage>
+      <AlertMessage screenName={"UserProfile"} Title={"Business information updated successfully"} setModalVisible={setModalVisible} modalVisible={modalVisible}></AlertMessage>
       <View style={styles.inputContainer}>
         <ScrollView>
           <Text style={styles.label}>Business Name</Text>
@@ -247,18 +260,6 @@ const[loading,setloading]=useState(true);
 
           <Text style={styles.label}>Business PinCode</Text>
           <TextInput value={pincode} style={styles.input} onChangeText={text => handlepinchange(text)} placeholder="Enter PinCode" placeholderTextColor="#aaa" />
-
-          {/* <Text style={styles.label}>Latitude</Text>
-          <TextInput style={styles.input} value={lattitude} placeholder="Enter Latitude" placeholderTextColor="#aaa" />
-
-          <Text style={styles.label}>Longitude</Text>
-          <TextInput style={styles.input} value={longitude} placeholder="Enter Longitude" placeholderTextColor="#aaa" />
-
-          <Text style={styles.label}>State</Text>
-          <TextInput style={styles.input} value={state} placeholder="Enter State" placeholderTextColor="#aaa" />
-
-          <Text style={styles.label}>City</Text>
-          <TextInput style={styles.input} value={businesscity} placeholder="Enter City" placeholderTextColor="#aaa" /> */}
 
           <Text style={styles.label}>Business MapUrl</Text>
           <TextInput value={mapurl} onChangeText={text => setmapurl(text)} style={styles.input} placeholder="Enter Map URL" placeholderTextColor="#aaa" />
@@ -362,12 +363,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 25,
     marginBottom: 20,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    height: 40
+
   },
   picker: {
-    height: 40,
-    color: "#000",
-    marginHorizontal: 10,
-    bottom: 8,
+    padding: 0,
   },
   updateButton: {
     marginBottom: 50,
@@ -382,3 +384,4 @@ const styles = StyleSheet.create({
 });
 
 export default UpdateBusinessinfo;
+

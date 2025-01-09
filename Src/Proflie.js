@@ -191,8 +191,10 @@ const Profile = (props) => {
     }
   };
 
+
+  /* ------------------------------------ */
   const updateProfile = async () => {
-    const apiUrl = `https://api.aroundme.co.in/businessapp/BusinessOwner/edit/${AccessToken.Mid}/`;
+    const apiUrl = `https://api.aroundme.co.in/businessapp/BusinessOwner/edit/`;
     setLoading(true);
     const formData = new FormData();
 
@@ -212,12 +214,16 @@ const Profile = (props) => {
     }
 
     const headers = {
+
       'Authorization': `Bearer ${AccessToken.Token}`,
       'Content-Type': 'multipart/form-data',
     };
+    console.log("formdata", formData);
+    console.log("headers", headers);
 
     try {
       const response = await axios.put(apiUrl, formData, { headers });
+      console.log("entered the try-catch", response);
       alertMsg('Profile updated successfully');
       setscreenname('UserProfile');
       LoadData(); // Reload data after the update
@@ -225,9 +231,14 @@ const Profile = (props) => {
     } catch (error) {
       setLoading(false);
       console.error('Error updating profile:', error);
+      conli
       Alert.alert('Error', 'Failed to update profile.');
     }
   };
+
+  /* ------------------------------------ */
+
+
 
   const alertMsg = (text) => {
     setsms(text);
@@ -282,7 +293,7 @@ const Profile = (props) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white', borderColor: 'black' }}>
+    <View style={{ flex: 1, backgroundColor: 'white', borderColor: 'black', borderWidth: 1 }}>
       {modalVisible && (
         <AlertMessage
           screenName={screenName}
@@ -456,27 +467,28 @@ const Profile = (props) => {
                 {Verfy ? (
                   <Icon name="check-circle" size={18} color="green" />
                 ) : (
-                  <>
-                    {whatsapp_no.length === 10 && (
-                      <TouchableOpacity
-                        onPress={() => handleSendOtp(whatsapp_no)}
-                        disabled={countdown > 0}
-                        style={{
-                          borderWidth: 1,
-                          height: 25,
-                          padding: 2,
-                          paddingHorizontal: 10,
-                          borderRadius: 10,
-                          borderColor: '#961702',
-                          marginLeft: 10,
-                        }}
-                      >
-                        <Text style={{ color: '#961702', fontSize: 12 }}>
-                          {countdown > 0 ? `Resend OTP in ${countdown}s` : !otp ? 'Send OTP' : 'Resend OTP'}
-                        </Text>
-                      </TouchableOpacity>
-                    )}
-                  </>
+                  // <>
+                  //   {whatsapp_no.length === 10 && (
+                  //     <TouchableOpacity
+                  //       onPress={() => handleSendOtp(whatsapp_no)}
+                  //       disabled={countdown > 0}
+                  //       style={{
+                  //         borderWidth: 1,
+                  //         height: 25,
+                  //         padding: 2,
+                  //         paddingHorizontal: 10,
+                  //         borderRadius: 10,
+                  //         borderColor: '#961702',
+                  //         marginLeft: 10,
+                  //       }}
+                  //     >
+                  //       <Text style={{ color: '#961702', fontSize: 12 }}>
+                  //         {countdown > 0 ? `Resend OTP in ${countdown}s` : !otp ? 'Send OTP' : 'Resend OTP'}
+                  //       </Text>
+                  //     </TouchableOpacity>
+                  //   )}
+                  // </>
+                  ""
                 )}
               </View>
             </View>

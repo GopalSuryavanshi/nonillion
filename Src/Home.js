@@ -106,7 +106,7 @@ const Home = (props) => {
               'Content-Type': 'application/json',
             },
           });
-
+console.log(response);
           const data = {
             Token: response.data.access,
             id: response.data.id,

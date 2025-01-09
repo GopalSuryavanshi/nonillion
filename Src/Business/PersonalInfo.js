@@ -3,6 +3,9 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const PersonalInfo = ({data}) => {
+  
+
+  console.log("personal data", data);
   const navigation=useNavigation();
   return (
     <View style={styles.container}>
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
   },
   value: {
     fontSize: 14,
-    textTransform:"capitalize",
+    // textTransform:"capitalize",
     color:"#808080"
   },
 });

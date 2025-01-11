@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Header } from '../Header';
 import { useMyContext } from '../MyContext';
 
-const Packages = ({ navigation, route }) => {
+const Packages = ({ navigation,  }) => {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,9 +13,7 @@ const Packages = ({ navigation, route }) => {
   const [selectedDuration, setSelectedDuration] = useState('Monthly'); // Default selection
 
   const { LoginState } = useMyContext();
-  const id = route.params;
-  const category_id = id.cat_id.props.category_id;
-  console.log('category_id', category_id);
+  const { catId } = useMyContext();
 
   const fetchPackagesAndData = async (duration) => {
     setLoading(true); // Set loading to true when fetching new data
@@ -23,13 +21,13 @@ const Packages = ({ navigation, route }) => {
       // Determine the URL based on the selected duration
       let url = '';
       if (duration === 'Annually') {
-        url = `https://api.aroundme.co.in/businessapp/pacakgeduration/?annual=Annual&category_id=${category_id}`;
+        url = `https://api.aroundme.co.in/businessapp/pacakgeduration/?annual=Annual&category_id=${catId.category_id}`;
       } else if (duration === 'Halfyearly') {
-        url = `https://api.aroundme.co.in/businessapp/pacakgeduration/?half=Half-yearly&category_id=${category_id}`;
+        url = `https://api.aroundme.co.in/businessapp/pacakgeduration/?half=Half-yearly&category_id=${catId.category_id}`;
       } else if (duration === 'Quarterly') {
-        url = `https://api.aroundme.co.in/businessapp/pacakgeduration/?quarterly=Quarterly&category_id=${category_id}`;
+        url = `https://api.aroundme.co.in/businessapp/pacakgeduration/?quarterly=Quarterly&category_id=${catId.category_id}`;
       } else if (duration === 'Monthly') {
-        url = `https://api.aroundme.co.in/businessapp/packages/?category_id=${category_id}`;
+        url = `https://api.aroundme.co.in/businessapp/packages/?category_id=${catId.category_id}`;
       }
 
       // Fetch packages

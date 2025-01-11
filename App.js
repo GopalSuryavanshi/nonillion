@@ -46,7 +46,7 @@ import { ResponceSN } from './Src/ResponceSN';
 import UpdateBusinessinfo from './Src/Business/UpdateBusinessinfo';
 import BusinessLogoUpload from './Src/Business/BusinessLogoUpload';
 
-// import messaging from '@react-native-firebase/messaging'; 
+// import messaging from '@react-native-firebase/messaging';
 
 import OrderHistory from './Src/screen/OrderHistory';
 import InvoiceScreen from './Src/screen/InvoiceScreen';
@@ -68,6 +68,82 @@ function App() {
 
 
 
+  // async function requestUserPermission() {
+  //   const authStatus = await messaging().requestPermission();
+  //   const enabled =
+  //     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  //     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  //   if (enabled) {
+  //     console.log('Authorization status:', authStatus);
+  //   }
+  // }
+
+  // async function getFCMToken() {
+  //   const token = await messaging().getToken();
+  //   console.log('FCM Token:', token);
+  //   settext(token)
+  //   return token;
+  // }
+
+  // const [text, settext] = React.useState("")
+  // React.useEffect(() => {
+  //   requestUserPermission();
+  //   getFCMToken();
+  // }, []);
+
+  // React.useEffect(() => {
+  //   // This code will be executed after the component is mounted
+  //   SplashScreen.hide();
+  // }, []);
+
+
+
+
+  // const [Playstore, setPlaystore] = React.useState({ Version: "", message: "", size: "" })
+
+
+  // React.useEffect(() => {
+  //   getVersion();
+  // }, [])
+
+
+  // const [isUpdate, setisUplate] = React.useState(false)
+
+
+  // const getVersion = async () => {
+  //   try {
+  //     const users = await firestore().collection('aroundme').get();
+  //     setisUplate(users.docs[0]._data.versionid !== DeviceInfo.getVersion() ? true : false)
+
+
+  //     const data = {
+  //       Version: users.docs[0]._data.versionid,
+  //       message: users.docs[0]._data.message,
+  //       size: users.docs[0]._data.size
+  //     };
+
+  //     // Set the state with the fetched data
+  //     setPlaystore(data);
+
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+
+  const [isUpdate, setisUplate] = React.useState(false);
+  const [playstore, setPlaystore] = React.useState({ Version: '', message: '', size: '' });
+
+  React.useEffect(() => {
+    async function initializeApp() {
+      await requestUserPermission();
+      await getFCMToken();
+      await getVersion();
+      SplashScreen.hide();
+    }
+    initializeApp();
+  }, []);
 
   async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();
@@ -75,66 +151,55 @@ function App() {
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-    if (enabled) {
-      console.log('Authorization status:', authStatus);
+    if (!enabled) {
+      console.log('FCM Permission Denied');
     }
   }
 
   async function getFCMToken() {
-    const token = await messaging().getToken();
-    console.log('FCM Token:', token);
-    settext(token)
-    return token;
+    try {
+      const token = await messaging().getToken();
+      console.log('FCM Token:', token);
+    } catch (error) {
+      console.error('Error fetching FCM token:', error);
+    }
   }
-
-  const [text, settext] = React.useState("")
-  React.useEffect(() => {
-    requestUserPermission();
-    getFCMToken();
-  }, []);
-
-  React.useEffect(() => {
-    // This code will be executed after the component is mounted
-    SplashScreen.hide();
-  }, []);
-
-
-
-
-  const [Playstore, setPlaystore] = React.useState({ Version: "", message: "", size: "" })
-
-
-  React.useEffect(() => {
-    getVersion();
-  }, [])
-
-
-  const [isUpdate, setisUplate] = React.useState(false)
-
 
   const getVersion = async () => {
     try {
       const users = await firestore().collection('aroundme').get();
-      setisUplate(users.docs[0]._data.versionid !== DeviceInfo.getVersion() ? true : false)
-
-
-      const data = {
-        Version: users.docs[0]._data.versionid,
-        message: users.docs[0]._data.message,
-        size: users.docs[0]._data.size
-      };
-
-      // Set the state with the fetched data
-      setPlaystore(data);
-
+      if (!users.empty) {
+        const versionData = users.docs[0].data();
+        setisUplate(versionData.versionid !== DeviceInfo.getVersion());
+        setPlaystore({
+          Version: versionData.versionid,
+          message: versionData.message,
+          size: versionData.size,
+        });
+      }
     } catch (error) {
-      console.log(error)
+      console.error(error);
     }
-  }
+  };
+
+  // React.useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+  //     console.log('Foreground Notification:', remoteMessage);
+  //   });
+
+  //   messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+  //     console.log('Background Notification:', remoteMessage);
+  //   });
+
+  //   return unsubscribe;
+  // }, []);
+
+
+
   return (
     <NavigationContainer>
       <MyProvider>
-        <PlaystorePopup data={Playstore} action={isUpdate} setisUplate={setisUplate}></PlaystorePopup>
+        <PlaystorePopup data={playstore} action={isUpdate} setisUplate={setisUplate}></PlaystorePopup>
         {/* <TextInput value={text}></TextInput> */}
         <Stack.Navigator screenOptions={{ headerShown: false }}>
 

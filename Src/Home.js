@@ -29,12 +29,47 @@ const Home = (props) => {
   
  
   const[textTOken,settext]=useState("")
-  async function getFCMToken() {
-    const token = await messaging().getToken();
-    console.log('FCM Token:', token);
-    settext(token)
-    return token;
+
+
+/* sdbfhjwdbvjdnvkdsnvkjwnvkjrvnkrbnjkr */
+
+
+  // async function getFCMToken() {
+  //   const token = await messaging().getToken();
+  //   console.log('FCM Token:', token);
+  //   settext(token)
+  //   return token;
+  // }
+
+  // useEffect(() => {
+  //   getFCMToken()
+  //   if (LoginState.Token) {
+  //     props.navigation.dispatch(
+  //       CommonActions.reset({
+  //         index: 0,
+  //         routes: [{ name: 'Dashboard' }],
+  //       })
+  //     );
+  //   }
+  // }, [LoginState, props.navigation]);
+
+/* sdbfhjwdbvjdnvkdsnvkjwnvkjrvnkrbnjkr */
+
+
+// const { LoginState } = useMyContext();
+
+useEffect(() => {
+  if (LoginState.Token) {
+    props.navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Dashboard' }],
+      })
+    );
   }
+}, [LoginState.Token, props.navigation]);
+
+
   const handleLogin = async () => {
     setLoader(true);
     try {
@@ -132,18 +167,7 @@ console.log(response);
     setLoader(false);
   };
 
-  useEffect(() => {
-    getFCMToken()
-    if (LoginState.Token) {
-      props.navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: 'Dashboard' }],
-        })
-      );
-    }
-  }, [LoginState, props.navigation]);
-
+ 
   return (
     <View style={styles.container}>
       {Loader && <FullScreenDataLoader color={"#961702"} />}

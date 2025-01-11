@@ -81,6 +81,9 @@ const DashboardScreen = (props) => {
     }
   };
 
+  const {setCatId} = useMyContext();
+
+
 
   const GetBusinessData = () => {
     console.log("xxxxx")
@@ -93,7 +96,7 @@ const DashboardScreen = (props) => {
       })
       .then((response) => {
         const data = response.data.data;
-        console.warn("vvvvvvv",data);
+        // console.warn("vvvvvvv",data);
         setCatId(data);
         
         if (data.business_status == "I") {
@@ -140,7 +143,6 @@ const DashboardScreen = (props) => {
 
 
   const [data, setData] = useState([]);
-const [catId, setCatId] = useState();
 
   useEffect(() => {
     OwnerABC();
@@ -421,7 +423,7 @@ const [catId, setCatId] = useState();
 
 
         <View style={{ paddingHorizontal: 40 }}>
-          <DashboardGrid  props={catId}/>
+          <DashboardGrid/>
         </View>
         <LineChartData></LineChartData>
 

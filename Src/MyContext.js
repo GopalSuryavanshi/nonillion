@@ -5,6 +5,8 @@ const MyContext = createContext();
 
 export const MyProvider = ({ children }) => {
   const [LoginState, setMyState] = useState({});
+  const [catId, setCatId] = useState(null);
+
 
   useEffect(() => {
     const loadState = async () => {
@@ -32,7 +34,7 @@ export const MyProvider = ({ children }) => {
   };
 
   return (
-    <MyContext.Provider value={{ LoginState, updateState }}>
+    <MyContext.Provider value={{ LoginState, updateState, catId, setCatId }}>
       {children}
     </MyContext.Provider>
   );

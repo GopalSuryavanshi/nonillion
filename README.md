@@ -45,11 +45,12 @@ A cross-platform mobile application built with **React Native CLI** that allows 
 ##  Installation
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone [https://github.com/GopalSuryavanshi/nonillion.git]
+cd nonillion
 npm install
 
 ## To run
+npm start
 npx react-native run-android
 
 

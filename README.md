@@ -25,7 +25,8 @@ A cross-platform mobile application built with **React Native CLI** that allows 
 
 ## Screenshots
 
-*(Add your screenshots here)*
+
+![WhatsApp Image 2025-06-27 at 11 11 58 AM](https://github.com/user-attachments/assets/a8adfc6f-e976-4eee-9f68-dea95da5c29b)
 
 
 ---

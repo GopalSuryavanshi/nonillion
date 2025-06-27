@@ -60,7 +60,7 @@ const LoginScreen = ({navigation}) => {
 
     setIsLoading(true);
 
-    // Simulate API call to check authorized user
+   
     setTimeout(() => {
       const user = authorizedUsers.find(
         u =>
@@ -201,7 +201,7 @@ const LoginScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF', // White background
+    backgroundColor: '#FFFFFF', 
   },
   innerContainer: {
     flex: 1,
@@ -215,14 +215,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 34,
     fontWeight: '800',
-    color: '#096B68', // Teal for title
+    color: '#096B68', 
     textAlign: 'center',
     marginTop: 12,
     letterSpacing: 1,
   },
   subtitle: {
     fontSize: 16,
-    color: '#333333', // Dark gray for subtitle
+    color: '#333333',
     textAlign: 'center',
     fontStyle: 'italic',
   },
@@ -232,22 +232,22 @@ const styles = StyleSheet.create({
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(9, 107, 104, 0.1)', // Light teal glassmorphism
+    backgroundColor: 'rgba(9, 107, 104, 0.1)', 
     borderRadius: 12,
     marginBottom: 12,
     paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: 'rgba(9, 107, 104, 0.3)', // Teal tint
+    borderColor: 'rgba(9, 107, 104, 0.3)', 
   },
   input: {
     flex: 1,
     height: 52,
-    color: '#333333', // Dark gray for text
+    color: '#333333', 
     fontSize: 16,
     paddingHorizontal: 12,
   },
   inputError: {
-    borderColor: '#FF4D4D', // Bright red for error states
+    borderColor: '#FF4D4D', 
     borderWidth: 1,
   },
   inputIcon: {
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   loginButton: {
-    backgroundColor: '#096B68', // Teal button
+    backgroundColor: '#096B68', 
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -275,16 +275,16 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   buttonDisabled: {
-    backgroundColor: '#4B5EAA', // Muted blue for disabled state
+    backgroundColor: '#4B5EAA', 
   },
   loginButtonText: {
-    color: '#FFFFFF', // White text
+    color: '#FFFFFF', 
     fontSize: 18,
     fontWeight: '700',
   },
   orText: {
     textAlign: 'center',
-    color: '#333333', // Dark gray
+    color: '#333333', 
     marginVertical: 16,
     fontSize: 16,
     fontWeight: '500',
@@ -295,11 +295,11 @@ const styles = StyleSheet.create({
     gap: 24,
   },
   socialButton: {
-    backgroundColor: 'rgba(9, 107, 104, 0.15)', // Light teal glassmorphism
+    backgroundColor: 'rgba(9, 107, 104, 0.15)', 
     borderRadius: 30,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#096B68', // Teal border
+    borderColor: '#096B68', 
   },
   socialIcon: {
     width: 32,
